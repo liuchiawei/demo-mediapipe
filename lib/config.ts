@@ -8,7 +8,7 @@ export const mediaConfig = {
 };
 
 export const detectorConfig = {
-  rruntime: 'mediapipe', // or 'tfjs',
+  runtime: 'mediapipe', // or 'tfjs',
   solutionPath: 'https://cdn.jsdelivr.net/npm/@mediapipe/hands',
   modelType: 'full'
 };
