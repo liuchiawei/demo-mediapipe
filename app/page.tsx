@@ -1,4 +1,4 @@
-import HandPose from "./components/HandPose";
+import HandPose from "../components/HandPose";
 
 export default function Home() {
   return <HandPose />;

@@ -13,7 +13,7 @@ export default function HandPose() {
     async function initCamera() {
       try {
         mediaStream = await navigator.mediaDevices.getUserMedia({
-          video: { width: 1280, height: 720, facingMode: "user" },
+          video: { width: 640, height: 360, facingMode: "user" },
           audio: false,
         });
         setStream(mediaStream);
@@ -49,6 +49,7 @@ export default function HandPose() {
         playsInline
         muted
         className="w-full max-w-2xl rounded-lg border bg-black aspect-video object-cover"
+        // scaleX(-1) is used to flip the video horizontally
         style={{ transform: "scaleX(-1)" }}
       />
     </div>
