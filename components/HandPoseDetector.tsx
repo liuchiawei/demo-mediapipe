@@ -30,8 +30,7 @@ export default function HandPoseDetector() {
         <Webcam ref={videoRef} className="block h-full w-full object-cover" />
         <canvas
           ref={canvasRef}
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-          style={{ width, maxWidth: "100%" }}
+          className="pointer-events-none absolute inset-0 object-cover"
         />
       </div>
       <GestureDisplaySection
