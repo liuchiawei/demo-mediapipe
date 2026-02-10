@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { constraints } from "@/lib/constraints";
 
 export default function HandPose() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -13,15 +14,19 @@ export default function HandPose() {
     async function initCamera() {
       try {
         mediaStream = await navigator.mediaDevices.getUserMedia({
-          video: { width: 640, height: 360, facingMode: "user" },
-          audio: false,
+          video: {
+            width: constraints.video.width,
+            height: constraints.video.height,
+            facingMode: constraints.video.facingMode,
+          },
+          audio: constraints.audio,
         });
         setStream(mediaStream);
       } catch (err) {
         setError(
           err instanceof Error
             ? `${err.message} | カメラの取得に失敗しました`
-            : "Unable to access camera | カメラの取得に失敗しました"
+            : "Unable to access camera | カメラの取得に失敗しました",
         );
       }
     }
