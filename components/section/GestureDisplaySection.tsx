@@ -30,7 +30,7 @@ export default function GestureDisplaySection({
   );
 
   return (
-    <div className="w-full grid grid-cols-2 gap-4">
+    <div className="w-full grid grid-cols-2 gap-4 min-h-[7rem]">
       <Card>
         <CardHeader>
           <CardTitle className="text-center">{HandLables.left}</CardTitle>

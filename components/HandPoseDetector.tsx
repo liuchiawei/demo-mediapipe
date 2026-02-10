@@ -17,20 +17,24 @@ export default function HandPoseDetector() {
   const { width } = mediaConfig.video;
 
   return (
-    <div className="flex flex-col items-center gap-4">
-      {!ready ? (
-        <p className="text-muted-foreground">
-          {HandPoseDetectorMessage.loadingMessage}
-        </p>
-      ) : null}
+    <div className="flex flex-col items-center gap-4 w-full">
+      <div className="min-h-[1.5rem] flex items-center justify-center text-center">
+        {!ready ? (
+          <p className="text-muted-foreground text-sm">
+            {HandPoseDetectorMessage.loadingMessage}
+          </p>
+        ) : null}
+      </div>
       <div
-        className="relative overflow-hidden rounded-lg bg-black shadow-lg"
+        className="relative w-full overflow-hidden rounded-lg bg-black shadow-lg aspect-video"
         style={{ width, maxWidth: "100%" }}
       >
         <Webcam ref={videoRef} className="block h-full w-full object-cover" />
         <canvas
           ref={canvasRef}
-          className="pointer-events-none absolute inset-0 object-cover"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+          width={width}
+          height={mediaConfig.video.height}
         />
       </div>
       <GestureDisplaySection
