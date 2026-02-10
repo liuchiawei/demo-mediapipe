@@ -1,31 +1,31 @@
 "use client";
 
-import { forwardRef, useRef, useState, useEffect, useCallback } from "react";
+import { forwardRef, useRef, useState, useEffect } from "react";
 import { mediaConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
 
+function mergeRefs<T>(
+  ref: React.Ref<T> | undefined,
+  localRef: React.MutableRefObject<T | null>,
+) {
+  return (el: T | null) => {
+    localRef.current = el;
+    if (typeof ref === "function") ref(el);
+    else if (ref) (ref as React.MutableRefObject<T | null>).current = el;
+  };
+}
+
 const Webcam = forwardRef<HTMLVideoElement, { className?: string }>(
   function Webcam({ className }, ref) {
-    const webcamRef = useRef<HTMLVideoElement>(null);
-    const [stream, setStream] = useState<MediaStream | null>(null);
+    const videoRef = useRef<HTMLVideoElement>(null);
     const [error, setError] = useState<string | null>(null);
 
-    const setRefs = useCallback(
-      (el: HTMLVideoElement | null) => {
-        (webcamRef as React.MutableRefObject<HTMLVideoElement | null>).current =
-          el;
-        if (typeof ref === "function") ref(el);
-        else if (ref) ref.current = el;
-      },
-      [ref],
-    );
-
     useEffect(() => {
-      let mediaStream: MediaStream | null = null;
+      let stream: MediaStream | null = null;
 
       async function initCamera() {
         try {
-          mediaStream = await navigator.mediaDevices.getUserMedia({
+          stream = await navigator.mediaDevices.getUserMedia({
             video: {
               width: mediaConfig.video.width,
               height: mediaConfig.video.height,
@@ -33,7 +33,7 @@ const Webcam = forwardRef<HTMLVideoElement, { className?: string }>(
             },
             audio: mediaConfig.audio,
           });
-          setStream(mediaStream);
+          if (videoRef.current) videoRef.current.srcObject = stream;
         } catch (err) {
           setError(
             err instanceof Error
@@ -45,26 +45,19 @@ const Webcam = forwardRef<HTMLVideoElement, { className?: string }>(
 
       initCamera();
       return () => {
-        if (mediaStream) {
-          mediaStream.getTracks().forEach((track) => track.stop());
-        }
+        stream?.getTracks().forEach((track) => track.stop());
       };
     }, []);
 
-    useEffect(() => {
-      if (!stream || !webcamRef.current) return;
-      webcamRef.current.srcObject = stream;
-    }, [stream]);
-
     return (
       <>
-        {error && (
+        {error ? (
           <p role="alert" className="text-red-500">
             {error}
           </p>
-        )}
+        ) : null}
         <video
-          ref={setRefs}
+          ref={mergeRefs(ref, videoRef)}
           autoPlay
           playsInline
           muted
