@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Demo MediaPipe — Gesture Detection
+
+Real-time gesture recognition demo built with **Next.js** and **MediaPipe Tasks Vision**, using the browser **web camera**.
+
+**Read in other languages:** [日本語 (README.ja.md)](README.ja.md) · [繁體中文 (README.zh-TW.md)](README.zh-TW.md)
+
+## Tech Stack
+
+- **Next.js** — React framework
+- **@mediapipe/tasks-vision** — MediaPipe Vision Tasks API (e.g. `GestureRecognizer`). **Not** the legacy `@mediapipe/hands`
+- **Web Camera** — Live video stream from the browser
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Start the development server:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Learn More
+## About This Project
 
-To learn more about Next.js, take a look at the following resources:
+This project uses **@mediapipe/tasks-vision** (`GestureRecognizer`, `FilesetResolver`) for gesture recognition with the web camera. It does **not** use the deprecated `@mediapipe/hands` package.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Resources
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js Documentation](https://nextjs.org/docs)
+- [MediaPipe Tasks Vision — Gesture Recognizer](https://developers.google.com/mediapipe/solutions/vision/gesture_recognizer)
