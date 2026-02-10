@@ -4,16 +4,17 @@ import type { GestureItem } from '@/lib/gesture';
 import { HandLables, HandPoseDetector } from '@/lib/message';
 
 export type GestureDisplayCardProps = {
+  title: string;
   gestures: GestureItem[];
   ready: boolean;
   emptyMessage?: React.ReactNode;
 };
 
-export default function GestureDisplayCard({ gestures, ready, emptyMessage }: GestureDisplayCardProps) {
+export default function GestureDisplayCard({ title, gestures, ready, emptyMessage }: GestureDisplayCardProps) {
   return (
     <Card>
         <CardHeader>
-          <CardTitle className="text-center">{HandLables.left}</CardTitle>
+          <CardTitle className="text-center">{title}</CardTitle>
         </CardHeader>
         <CardContent>
           {gestures.length === 0 ? (

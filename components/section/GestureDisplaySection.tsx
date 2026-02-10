@@ -30,11 +30,13 @@ export default function GestureDisplaySection({
   return (
     <div className="w-full grid grid-cols-2 gap-4 min-h-[7rem]">
       <GestureDisplayCard
+        title={HandLables.left}
         gestures={leftGestures}
         ready={ready}
         emptyMessage={emptyMessage}
       />
       <GestureDisplayCard
+        title={HandLables.right}
         gestures={rightGestures}
         ready={ready}
         emptyMessage={emptyMessage}
