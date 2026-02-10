@@ -9,6 +9,7 @@ import {
   drawGestureLandmarks,
   clearGestureCanvas,
 } from "@/lib/drawGestureLandmarks";
+import type { NormalizedLandmark } from "@mediapipe/tasks-vision";
 
 const THROTTLE_MS = 100;
 
@@ -21,6 +22,8 @@ export function useGestureRecognizer(
   const [gestures, setGestures] = useState<GestureItem[]>([]);
   const gesturesRef = useRef<GestureItem[]>([]);
   const lastFlushRef = useRef(0);
+  /** Previous frame landmarks: draw first, then run recognition (smoother paint). */
+  const lastLandmarksRef = useRef<NormalizedLandmark[][]>([]);
 
   useEffect(() => {
     let cancelled = false;
@@ -74,6 +77,7 @@ export function useGestureRecognizer(
 
       const video = videoRef.current;
       const recognizer = recognizerRef.current;
+      const canvas = canvasRef.current;
 
       if (!video || !recognizer) {
         rafId = requestAnimationFrame(loop);
@@ -85,20 +89,24 @@ export function useGestureRecognizer(
         return;
       }
 
+      // Draw previous frame's landmarks first so this frame can paint without waiting for recognition.
+      if (canvas) {
+        const prev = lastLandmarksRef.current;
+        if (prev.length > 0) {
+          drawGestureLandmarks(canvas, video, prev);
+        } else {
+          clearGestureCanvas(canvas, video.videoWidth, video.videoHeight);
+        }
+      }
+
       try {
         const result = recognizer.recognizeForVideo(video, performance.now());
         const items = parseGestureResult(result);
         gesturesRef.current = items;
         flushGestures(performance.now());
-
-        const canvas = canvasRef.current;
-        if (canvas && result.landmarks && result.landmarks.length > 0) {
-          drawGestureLandmarks(canvas, video, result.landmarks);
-        } else if (canvas) {
-          clearGestureCanvas(canvas, video.videoWidth, video.videoHeight);
-        }
+        lastLandmarksRef.current = (result.landmarks ?? []) as NormalizedLandmark[][];
       } catch (_) {
-        // Ignore per-frame errors (e.g. video not ready)
+        lastLandmarksRef.current = [];
       }
 
       rafId = requestAnimationFrame(loop);
