@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { constraints } from "@/lib/constraints";
+import { mediaConfig } from "@/lib/config";
 
 export default function HandPose() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -15,11 +15,11 @@ export default function HandPose() {
       try {
         mediaStream = await navigator.mediaDevices.getUserMedia({
           video: {
-            width: constraints.video.width,
-            height: constraints.video.height,
-            facingMode: constraints.video.facingMode,
+            width: mediaConfig.video.width,
+            height: mediaConfig.video.height,
+            facingMode: mediaConfig.video.facingMode,
           },
-          audio: constraints.audio,
+          audio: mediaConfig.audio,
         });
         setStream(mediaStream);
       } catch (err) {
